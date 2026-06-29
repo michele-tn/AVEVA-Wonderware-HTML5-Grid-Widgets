@@ -1,4 +1,5 @@
 # AVEVA Wonderware HTML5 Grid Widgets
+![AVEVA Wonderware HTML5 Grid Widgets](./post-cover.svg)
 
 This repository contains two HTML5/CWP widgets for AVEVA Wonderware / AVEVA System Platform:
 
