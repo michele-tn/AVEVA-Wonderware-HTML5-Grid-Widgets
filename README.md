@@ -5,7 +5,7 @@ This repository contains two HTML5/CWP widgets for AVEVA Wonderware / AVEVA Syst
 - `GB_AGGridSQLWidget.cwp`, based on [AG Grid](https://www.ag-grid.com/example-finance/)
 - `GB_TabulatorSQLWidget.cwp`, based on [Tabulator 6.x](https://www.tabulator.info/examples/6.x/)
 
-Both widgets expose a common property contract so the same HMI/System Platform logic can feed either grid with JSON column definitions and JSON row data.
+Both widgets expose a common properties so the same HMI/System Platform logic can feed either grid with JSON column definitions and JSON row data.
 
 ## Design Goals
 
@@ -83,7 +83,7 @@ Main implementation notes:
 - date-like columns can use an HTML5 calendar filter when `DateFilterAsCalendar=True`
 - column metadata is compatible with field names such as `prop`, `name`, `headerName`, and `size`
 
-## Widget Property Contract
+## Widget Property
 
 Both widgets use these core properties:
 
@@ -413,4 +413,4 @@ Use `GB_AGGridSQLWidget` when you want an AG Grid style table with Quartz themin
 
 Use `GB_TabulatorSQLWidget` when you want a Tabulator 6.x style table with header filters, list editors, local data behavior, and flexible Tabulator column configuration.
 
-Both widgets are intentionally fed through the same JSON property contract, so switching between them should mostly require adapting only advanced library-specific column options.
+Both widgets are intentionally fed through the same JSON property, so switching between them should mostly require adapting only advanced library-specific column options.
