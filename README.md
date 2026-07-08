@@ -1,11 +1,12 @@
 ![AVEVA Wonderware HTML5 Grid Widgets](./post-cover.svg)
 
-This repository contains two HTML5/CWP widgets for AVEVA Wonderware / AVEVA System Platform:
+This repository contains three HTML5/CWP widgets for AVEVA Wonderware / AVEVA System Platform:
 
 - `GB_AGGridSQLWidget.cwp`, based on [AG Grid](https://www.ag-grid.com/example-finance/)
+- `GB_AGGridSQLWidget_mod.cwp`, a modified AG Grid build available from [GB_AGGridSQLWidget_mod.cwp](https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod.cwp)
 - `GB_TabulatorSQLWidget.cwp`, based on [Tabulator 6.x](https://www.tabulator.info/examples/6.x/)
 
-Both widgets expose a common properties so the same HMI/System Platform logic can feed either grid with JSON column definitions and JSON row data.
+All widgets expose common properties so the same HMI/System Platform logic can feed each grid with JSON column definitions and JSON row data.
 
 ## Design Goals
 
@@ -54,6 +55,102 @@ Main implementation notes:
 - dropdown editors are mapped to AG Grid select editors through `ColumnsOptions`
 - column metadata is compatible with field names such as `prop`, `name`, `title`, `size`, and `minSize`
 
+<details>
+<summary><strong>Click to show GB_AGGridSQLWidget_mod updates</strong></summary>
+
+### GB_AGGridSQLWidget_mod
+
+`GB_AGGridSQLWidget_mod` is a modified AG Grid CWP widget for AVEVA Wonderware / AVEVA System Platform. It keeps the same external data contract as the standard AG Grid widget while adding color fixes, conditional cell styling, and parsing improvements for AVEVA-style JSON strings.
+
+Download the modified widget archive here:
+
+[GB_AGGridSQLWidget_mod.cwp](https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod.cwp)
+
+The CWP archive contains:
+
+```text
+GB_AGGridSQLWidget_mod/
+  index.html
+  widget.wjson
+  README.txt
+  build/
+    build.min.css
+    build.min.js
+  resources/
+    libs/
+      ag-grid-community.min.js
+      ag-grid.css
+      ag-theme-quartz.css
+```
+
+Widget property contract:
+
+- `Columns`: JSON array of column definitions.
+- `Data`: JSON array of row objects.
+- `FontSize`, `HeaderHeight`, `HeaderFontSize`, `RowHeight`: grid appearance settings.
+- `IsDirty`: written by the widget when a cell is modified.
+- `IsEditable`: enables or disables editing.
+- `IsDebugMode`: enables console logging.
+- `ColumnsProperties`: JSON array of additional per-column attributes.
+- `ColumnsOptions`: JSON array of dropdown options per column.
+- `ConditionalCellStyles`: JSON array of rules used to change cell text/background styling from row data.
+
+As with the standard widgets, `GB_AGGridSQLWidget_mod` does not open direct SQL Server connections and does not use `fetch` or `XMLHttpRequest`. SQL Server access must be handled by the HMI/System Platform layer, which publishes rows to `Data` and column definitions to `Columns`.
+
+Main updates in the modified version:
+
+- Adds customizable alternating row colors.
+- Adds color properties for header, rows, selected row, text, and border styling.
+- Adds the `ConditionalCellStyles` widget property.
+- Refreshes cells after a cell edit so conditional styles are recalculated immediately.
+- Accepts JSON passed by AVEVA as a quoted string.
+- Accepts AVEVA strings with doubled internal quotes, such as `"[{""field"":""Value""}]"`.
+- Allows `ColumnsProperties` to be provided either as a JSON array or as a pipe-separated list, such as `{"editable":false}|{"filter":false}`.
+- Matches conditional-style field names even when accents or case differ, for example `Quantita` and `Quantità`.
+- Honors `editable:false`, `readonly:true`, `readOnly:true`, `filter:false`, `filterable:false`, and `isFilterable:false` from `ColumnsProperties`.
+- Generates the CWP archive with the layout expected by `New-CwpFromFolder_CORRETTO.ps1`: ZIP entries use backslashes, the root widget folder is included, and explicit directory entries are omitted.
+
+Example `ConditionalCellStyles` value:
+
+```json
+[
+  {
+    "targetField": "Quantity",
+    "when": {
+      "field": "Notes",
+      "operator": "notEmpty"
+    },
+    "textColor": "#ff0000"
+  },
+  {
+    "targetField": "Quantity",
+    "when": {
+      "field": "Quantity",
+      "operator": ">",
+      "value": 300
+    },
+    "textColor": "#ff0000",
+    "backgroundColor": "#fff2cc"
+  }
+]
+```
+
+Supported conditional-style fields:
+
+- target field aliases: `targetField`, `target`, `column`
+- condition fields: `when.field`, `when.operator`, `when.value`
+- positive style fields: `textColor`, `color`, `backgroundColor`, `bgColor`, `fontWeight`, `fontStyle`
+- fallback style fields: `elseTextColor`, `elseColor`, `elseBackgroundColor`, `elseBgColor`, `elseFontWeight`, `elseFontStyle`
+
+Supported operators:
+
+```text
+notEmpty, empty, notNull, isNull, equals, notEquals, contains,
+startsWith, endsWith, in, notIn, >, >=, <, <=
+```
+
+</details>
+
 ### GB_TabulatorSQLWidget
 
 `GB_TabulatorSQLWidget` uses Tabulator 6.x. It follows the Tabulator examples model for interactive data tables: JSON data, editable cells, sortable columns, header filters, formatters, responsive column definitions, and local data rendering.
@@ -83,9 +180,9 @@ Main implementation notes:
 - date-like columns can use an HTML5 calendar filter when `DateFilterAsCalendar=True`
 - column metadata is compatible with field names such as `prop`, `name`, `headerName`, and `size`
 
-## Widget Property
+## Widget Properties
 
-Both widgets use these core properties:
+All widgets use these core properties:
 
 | Property | Type | Purpose |
 | --- | --- | --- |
@@ -114,6 +211,12 @@ Both widgets use these core properties:
 | Property | Type | Purpose |
 | --- | --- | --- |
 | `DateFilterAsCalendar` | Boolean | Uses an HTML5 date input for date-like header filters. |
+
+`GB_AGGridSQLWidget_mod` also includes:
+
+| Property | Type | Purpose |
+| --- | --- | --- |
+| `ConditionalCellStyles` | String | JSON array of conditional rules used to change cell text, background, font weight, and font style from row data. |
 
 ## Column Definitions
 
@@ -283,6 +386,19 @@ Example:
 
 Because AG Grid and Tabulator use different option names, keep shared column definitions simple and put library-specific options in `ColumnsProperties` only when the selected widget supports them.
 
+`GB_AGGridSQLWidget_mod` also accepts `ColumnsProperties` as a pipe-separated list when AVEVA integration makes a plain JSON array inconvenient:
+
+```text
+{"editable":false}|{"filter":false}
+```
+
+For the modified AG Grid widget, the following column flags are recognized when present in `ColumnsProperties`:
+
+```text
+editable:false, readonly:true, readOnly:true,
+filter:false, filterable:false, isFilterable:false
+```
+
 ## Filtering
 
 Set `IsFilterable=True` to enable filtering.
@@ -319,6 +435,51 @@ BorderColor               #dddddd
 ```
 
 Both widgets use `Calibri Light` first, with standard web font fallbacks.
+
+`GB_AGGridSQLWidget_mod` supports conditional cell styling through the `ConditionalCellStyles` property. Rules are evaluated against row data and can update the target cell text color, background color, font weight, and font style.
+
+Example:
+
+```json
+[
+  {
+    "targetField": "Quantity",
+    "when": {
+      "field": "Notes",
+      "operator": "notEmpty"
+    },
+    "textColor": "#ff0000"
+  },
+  {
+    "targetField": "Quantity",
+    "when": {
+      "field": "Quantity",
+      "operator": ">",
+      "value": 300
+    },
+    "textColor": "#ff0000",
+    "backgroundColor": "#fff2cc"
+  }
+]
+```
+
+Supported conditional-style fields:
+
+- target field aliases: `targetField`, `target`, `column`
+- condition fields: `when.field`, `when.operator`, `when.value`
+- positive style fields: `textColor`, `color`, `backgroundColor`, `bgColor`, `fontWeight`, `fontStyle`
+- fallback style fields: `elseTextColor`, `elseColor`, `elseBackgroundColor`, `elseBgColor`, `elseFontWeight`, `elseFontStyle`
+
+Supported operators:
+
+```text
+notEmpty, empty, notNull, isNull, equals, notEquals, contains,
+startsWith, endsWith, in, notIn, >, >=, <, <=
+```
+
+After a cell edit, `GB_AGGridSQLWidget_mod` refreshes cells so conditional styles are recalculated immediately. It also matches field names across case and accent differences, for example `Quantita` and `Quantità`.
+
+When AVEVA passes JSON as a quoted string, or with doubled internal quotes such as `"[{""field"":""Value""}]"`, the modified AG Grid widget normalizes the value before parsing it.
 
 ## HTML Entry Point
 
@@ -365,6 +526,12 @@ Example:
 
 ```powershell
 .\CWP Archive Generator.ps1 `
+  -SourceFolder ".\GB_AGGridSQLWidget_mod" `
+  -OutputCwp ".\GB_AGGridSQLWidget_mod.cwp"
+```
+
+```powershell
+.\CWP Archive Generator.ps1 `
   -SourceFolder ".\GB_TabulatorSQLWidget" `
   -OutputCwp ".\GB_TabulatorSQLWidget.cwp"
 ```
@@ -377,6 +544,12 @@ Expected archive root examples:
 GB_AGGridSQLWidget\index.html
 GB_AGGridSQLWidget\widget.wjson
 GB_AGGridSQLWidget\build\build.min.js
+```
+
+```text
+GB_AGGridSQLWidget_mod\index.html
+GB_AGGridSQLWidget_mod\widget.wjson
+GB_AGGridSQLWidget_mod\build\build.min.js
 ```
 
 ```text
@@ -397,6 +570,7 @@ Before importing a CWP into AVEVA:
 - verify that text files are UTF-8 without BOM
 - verify that the widget receives valid JSON strings in `Columns` and `Data`
 - verify that `IsEditable`, `IsFilterable`, and color properties are set as expected
+- for `GB_AGGridSQLWidget_mod`, verify that `ConditionalCellStyles` is valid JSON when conditional styling is used
 
 At runtime:
 
@@ -404,6 +578,7 @@ At runtime:
 - publish columns to `Columns`
 - use `ColumnsOptions` for dropdown/list editors
 - use `ColumnsProperties` for advanced per-column behavior
+- use `ConditionalCellStyles` with `GB_AGGridSQLWidget_mod` for row-data-driven cell styling
 - watch `IsDirty` to detect user edits
 - read the updated `Data` value after edits
 
@@ -411,6 +586,8 @@ At runtime:
 
 Use `GB_AGGridSQLWidget` when you want an AG Grid style table with Quartz theming, fast column sizing, AG Grid filtering, and a finance-dashboard style foundation.
 
+Use `GB_AGGridSQLWidget_mod` when you want the AG Grid foundation plus AVEVA-friendly parsing, customizable row/header colors, immediate conditional-style refresh after edits, and `ConditionalCellStyles` rules.
+
 Use `GB_TabulatorSQLWidget` when you want a Tabulator 6.x style table with header filters, list editors, local data behavior, and flexible Tabulator column configuration.
 
-Both widgets are intentionally fed through the same JSON property, so switching between them should mostly require adapting only advanced library-specific column options.
+All widgets are intentionally fed through the same JSON property, so switching between them should mostly require adapting only advanced library-specific column options.
