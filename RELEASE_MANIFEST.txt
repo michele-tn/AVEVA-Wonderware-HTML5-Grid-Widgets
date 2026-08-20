@@ -1,12 +1,12 @@
 Release versionata GB_AGGridSQLWidget_mod2
-Versione: v2026.08.20_1436
-Aggiornata: 2026-08-20 14:38:44 +02:00
+Versione: v2026.08.20_1709
+Creata: 2026-08-20 17:12:36 +02:00
 
-Fix incluso: RowsToSelect applicato con retry dopo refresh righe/colonne e normalizzazione robusta dei nomi campo.
+Fix incluso: selezione automatica dell ultima riga con campo ordine valorizzato, quando RowsToSelect non seleziona righe. Campi riconosciuti: Ord, Ordine, OdP, ODP, Odp.
 
 Regola AVEVA WONDERWARE:
 Il file CWP importabile resta volutamente denominato GB_AGGridSQLWidget_mod2.cwp.
 Il nome interno del Widget resta GB_AGGridSQLWidget_mod2.
 Il versioning viene applicato solo alla cartella di release e all archivio esterno .7z.
 
-SHA256 GB_AGGridSQLWidget_mod2.cwp: 80574E237A42BA403C30B154F6F3EA373DDBAB77C847E1B2E02A03E4959AFC63
+SHA256 GB_AGGridSQLWidget_mod2.cwp: B11B594EA7EDC2EA1E28C976CF7D4B03E2D7B3BED3A5525B98B45FB8C2D0D545
