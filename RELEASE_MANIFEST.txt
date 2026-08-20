@@ -1,0 +1,18 @@
+Release versionata GB_AGGridSQLWidget_mod2
+Versione: v2026.08.20_1350
+Creata: 2026-08-20 13:50 +02:00
+Aggiornata: 2026-08-20 13:53:04 +02:00
+
+Regola AVEVA WONDERWARE:
+Il file CWP importabile resta volutamente denominato GB_AGGridSQLWidget_mod2.cwp.
+Il nome interno del Widget resta GB_AGGridSQLWidget_mod2.
+Il versioning viene applicato solo alla cartella di release e all archivio esterno .7z.
+
+File pronti per GitHub:
+GB_AGGridSQLWidget_mod2.cwp
+index.html
+README.md
+mod2-demo-grid-edit.png
+mod2-demo-selected-log.png
+
+SHA256 GB_AGGridSQLWidget_mod2.cwp: ED188685589B1BAFCA4AEFAD75DF89891A66C181307F55A383A66C69A5771966

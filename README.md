@@ -163,6 +163,12 @@ Download the MOD2 widget archive here:
 
 [GB_AGGridSQLWidget_mod2.cwp](https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod2.cwp)
 
+Versioned release package:
+
+[GB_AGGridSQLWidget_mod2_RELEASE_v2026.08.20_1350.7z](https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod2_RELEASE_v2026.08.20_1350.7z)
+
+Versioning rule for AVEVA Wonderware: the importable CWP file must keep the exact name `GB_AGGridSQLWidget_mod2.cwp`, and the internal widget name must remain `GB_AGGridSQLWidget_mod2`. Versioning is applied only to the external release folder/package, never to the CWP file name used for import.
+
 The CWP archive contains:
 
 ```text
