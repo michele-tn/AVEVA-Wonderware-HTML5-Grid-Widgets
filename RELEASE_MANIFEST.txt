@@ -1,14 +1,15 @@
 Release GB_AGGridSQLWidget_mod2
-Versione: v2026.08.21_1021
-Creata: 2026-08-21 10:23:22 +02:00
+Versione: v2026.08.21_1055
+Creata: 2026-08-21 10:55:00 +02:00
 
 Modifica RowsToSelect:
 La riga viene evidenziata solo quando il valore ordine della riga coincide con il valore passato a RowsToSelect.
 Sono riconosciuti i campi Ord, ORD, Ordine, OdP, ODP, Odp.
 Rimosso il fallback che selezionava automaticamente l ultima riga con ordine non nullo.
+Aggiunta una classe visuale dedicata alla riga selezionata da RowsToSelect, cosi lo sfondo resta evidenziato anche senza click del mouse.
 
 Regola AVEVA WONDERWARE:
 Il file CWP importabile resta GB_AGGridSQLWidget_mod2.cwp.
 Il nome interno del Widget resta GB_AGGridSQLWidget_mod2.
 
-SHA256 GB_AGGridSQLWidget_mod2.cwp: C901A6F12068E7ACA571F5494A6CAA5BCDFCFE8A03A24BF4A4012C4B598E61AB
+SHA256 GB_AGGridSQLWidget_mod2.cwp: E915D34BC8B4A5150FB1F9A29A244F9E06B176E8AE6313AB831220AEEAEBF338
