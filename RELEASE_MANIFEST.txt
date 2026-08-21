@@ -1,12 +1,14 @@
-Release versionata GB_AGGridSQLWidget_mod2
-Versione: v2026.08.20_1709
-Creata: 2026-08-20 17:12:36 +02:00
+Release GB_AGGridSQLWidget_mod2
+Versione: v2026.08.21_1021
+Creata: 2026-08-21 10:23:22 +02:00
 
-Fix incluso: selezione automatica dell ultima riga con campo ordine valorizzato, quando RowsToSelect non seleziona righe. Campi riconosciuti: Ord, Ordine, OdP, ODP, Odp.
+Modifica RowsToSelect:
+La riga viene evidenziata solo quando il valore ordine della riga coincide con il valore passato a RowsToSelect.
+Sono riconosciuti i campi Ord, ORD, Ordine, OdP, ODP, Odp.
+Rimosso il fallback che selezionava automaticamente l ultima riga con ordine non nullo.
 
 Regola AVEVA WONDERWARE:
-Il file CWP importabile resta volutamente denominato GB_AGGridSQLWidget_mod2.cwp.
+Il file CWP importabile resta GB_AGGridSQLWidget_mod2.cwp.
 Il nome interno del Widget resta GB_AGGridSQLWidget_mod2.
-Il versioning viene applicato solo alla cartella di release e all archivio esterno .7z.
 
-SHA256 GB_AGGridSQLWidget_mod2.cwp: B11B594EA7EDC2EA1E28C976CF7D4B03E2D7B3BED3A5525B98B45FB8C2D0D545
+SHA256 GB_AGGridSQLWidget_mod2.cwp: C901A6F12068E7ACA571F5494A6CAA5BCDFCFE8A03A24BF4A4012C4B598E61AB
