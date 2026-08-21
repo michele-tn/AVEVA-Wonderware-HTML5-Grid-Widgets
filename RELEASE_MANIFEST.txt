@@ -1,15 +1,20 @@
 Release GB_AGGridSQLWidget_mod2
-Versione: v2026.08.21_1055
-Creata: 2026-08-21 10:55:00 +02:00
+Versione: v2026.08.21_1232
+Creata: 2026-08-21 12:32:00 +02:00
 
 Modifica RowsToSelect:
 La riga viene evidenziata solo quando il valore ordine della riga coincide con il valore passato a RowsToSelect.
 Sono riconosciuti i campi Ord, ORD, Ordine, OdP, ODP, Odp.
 Rimosso il fallback che selezionava automaticamente l ultima riga con ordine non nullo.
 Aggiunta una classe visuale dedicata alla riga selezionata da RowsToSelect, cosi lo sfondo resta evidenziato anche senza click del mouse.
+Aggiunta applicazione diretta dello sfondo sulle celle della riga che matcha RowsToSelect, anche quando non sono presenti ConditionalCellStyles.
+Aggiunta forzatura DOM post-redraw sulle celle della riga matchata da RowsToSelect, con background-color important.
+Aggiunto match ordine su tutti i valori scalari della riga quando RowsToSelect usa un campo ordine, cosi funziona anche se il nome interno della colonna non coincide con OdP/Ordine.
+Aggiunta estrazione RegEX del numero ordine da RowsToSelect. Esempio: da "Ordine=OPR26-30454||" viene estratto solo "OPR26-30454" e confrontato con la colonna OdP/ordine della riga.
+Aggiunta property diagnostica RowsToSelectDebug per leggere da AVEVA raw, ordine estratto, righe analizzate, match trovati e indici matchati.
 
 Regola AVEVA WONDERWARE:
 Il file CWP importabile resta GB_AGGridSQLWidget_mod2.cwp.
 Il nome interno del Widget resta GB_AGGridSQLWidget_mod2.
 
-SHA256 GB_AGGridSQLWidget_mod2.cwp: E915D34BC8B4A5150FB1F9A29A244F9E06B176E8AE6313AB831220AEEAEBF338
+SHA256 GB_AGGridSQLWidget_mod2.cwp: A0DDFFE0238C548C735D776EE1AA7301300401BC2D65468E241CD2D950641EBD
