@@ -165,9 +165,15 @@ Download the MOD2 widget archive here:
 
 Versioned release package:
 
-[GB_AGGridSQLWidget_mod2_RELEASE_v2026.08.21_1232.7z](https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod2_RELEASE_v2026.08.21_1232.7z)
+[GB_AGGridSQLWidget_mod2_RELEASE_v2026.09.10_1216.7z](https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod2_RELEASE_v2026.09.10_1216.7z)
 
 Versioning rule for AVEVA Wonderware: the importable CWP file must keep the exact name `GB_AGGridSQLWidget_mod2.cwp`, and the internal widget name must remain `GB_AGGridSQLWidget_mod2`. Versioning is applied only to the external release folder/package, never to the CWP file name used for import.
+
+Current MOD2 release: `v2026.09.10_1216`.
+
+SHA256 `GB_AGGridSQLWidget_mod2.cwp`: `752D02D422E6B0DF2DE1DDA7553E14BBD5D84E4E352729FFC8EB21962824AEB6`.
+
+RowsToSelect exclusive highlight fix: `SelectedRowBackgroundColor` is now applied only to rows matched by `RowsToSelect`. A manually clicked AG Grid row no longer receives the same yellow highlight, so the highlighted row is only the row whose OdP/order matches the current order list.
 
 The CWP archive contains:
 
