@@ -1,6 +1,6 @@
 Release GB_AGGridSQLWidget_mod2
-Versione: v2026.09.10_1549
-Creata: 2026-09-10 15:49:00 +02:00
+Versione: v2026.09.10_1711
+Creata: 2026-09-10 17:11:00 +02:00
 
 Modifica RowsToSelect:
 La riga viene evidenziata solo quando il valore ordine della riga coincide con il valore passato a RowsToSelect.
@@ -19,10 +19,10 @@ La classe standard AG Grid .ag-row-selected non usa piu SelectedRowBackgroundCol
 Correzione 2026-09-10 - match stretto su ordine:
 RowsToSelect ora confronta solo campi ordine/OdP espliciti e colonne riconosciute come ordine. Rimosso il fallback che confrontava tutti i valori scalari della riga, per evitare evidenziazioni di righe non correnti.
 Correzione 2026-09-10 - isolamento visuale:
-Quando RowsToSelect e attivo, tutte le righe non matchate vengono forzate al colore non evidenziato. Questo impedisce ai colori alternati odd/even o a una precedente selezione mouse di sembrare evidenziazioni da ordine corrente.
+Lo stile alternato odd/even resta attivo. SelectedRowBackgroundColor viene applicato solo alle righe che matchano gli ordini correnti presenti in RowsToSelect; le righe cliccate manualmente mantengono il normale colore alternato.
 
 Regola AVEVA WONDERWARE:
 Il file CWP importabile resta GB_AGGridSQLWidget_mod2.cwp.
 Il nome interno del Widget resta GB_AGGridSQLWidget_mod2.
 
-SHA256 GB_AGGridSQLWidget_mod2.cwp: B5150291BF66A3A21551D9DB7120DD6D58AE05BFCC97E6E9AAE8839D1F0FB338
+SHA256 GB_AGGridSQLWidget_mod2.cwp: 7E2C8144FFF28A1294F090ABDF681F090343764FEFF62099D654949EC0AF623D

@@ -233,13 +233,13 @@ startsWith, endsWith, in, notIn, &gt;, &gt;=, &lt;, &lt;=</code></pre>
 <p>Download the MOD2 widget archive here:</p>
 <p><a href="https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod2.cwp">GB_AGGridSQLWidget_mod2.cwp</a></p>
 <p>Versioned release package:</p>
-<p><a href="https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod2_RELEASE_v2026.09.10_1549.7z">GB_AGGridSQLWidget_mod2_RELEASE_v2026.09.10_1549.7z</a></p>
+<p><a href="https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod2_RELEASE_v2026.09.10_1711.7z">GB_AGGridSQLWidget_mod2_RELEASE_v2026.09.10_1711.7z</a></p>
 <p>Versioning rule for AVEVA Wonderware: the importable CWP file must keep the exact name <code>GB_AGGridSQLWidget_mod2.cwp</code>, and the internal widget name must remain <code>GB_AGGridSQLWidget_mod2</code>. Versioning is applied only to the external release folder/package, never to the CWP file name used for import.</p>
-<p>Current MOD2 release: <code>v2026.09.10_1549</code>.</p>
-<p>SHA256 <code>GB_AGGridSQLWidget_mod2.cwp</code>: <code>B5150291BF66A3A21551D9DB7120DD6D58AE05BFCC97E6E9AAE8839D1F0FB338</code>.</p>
+<p>Current MOD2 release: <code>v2026.09.10_1711</code>.</p>
+<p>SHA256 <code>GB_AGGridSQLWidget_mod2.cwp</code>: <code>7E2C8144FFF28A1294F090ABDF681F090343764FEFF62099D654949EC0AF623D</code>.</p>
 <p>RowsToSelect exclusive highlight fix: <code>SelectedRowBackgroundColor</code> is now applied only to rows matched by <code>RowsToSelect</code>. A manually clicked AG Grid row no longer receives the same yellow highlight, so the highlighted row is only the row whose OdP/order matches the current order list.</p>
 <p>RowsToSelect strict order fix: when <code>RowsToSelect</code> contains an order expression such as <code>Ordine=OPR26-33069||</code>, the widget now compares only explicit order/OdP fields and matching order columns. It no longer scans every scalar value in the row, so unrelated rows cannot be highlighted by accidental value matches.</p>
-<p>RowsToSelect visual isolation fix: when <code>RowsToSelect</code> is active, all non-matching rows are forced to the non-highlight background. This prevents normal odd/even row colors or a previous mouse selection from looking like current-order highlights.</p>
+<p>RowsToSelect visual isolation fix: base odd/even row styling is preserved. <code>SelectedRowBackgroundColor</code> is applied only to rows that match the current OdP/order values in <code>RowsToSelect</code>; rows selected manually by mouse keep their normal odd/even background.</p>
 <p>The CWP archive contains:</p>
 <pre><code class="language-text">GB_AGGridSQLWidget_mod2/
   index.html
