@@ -1,6 +1,6 @@
 Release GB_AGGridSQLWidget_mod2
-Versione: v2026.09.10_1711
-Creata: 2026-09-10 17:11:00 +02:00
+Versione: v2026.09.10_1911
+Creata: 2026-09-10 19:11:00 +02:00
 
 Modifica RowsToSelect:
 La riga viene evidenziata solo quando il valore ordine della riga coincide con il valore passato a RowsToSelect.
@@ -19,10 +19,13 @@ La classe standard AG Grid .ag-row-selected non usa piu SelectedRowBackgroundCol
 Correzione 2026-09-10 - match stretto su ordine:
 RowsToSelect ora confronta solo campi ordine/OdP espliciti e colonne riconosciute come ordine. Rimosso il fallback che confrontava tutti i valori scalari della riga, per evitare evidenziazioni di righe non correnti.
 Correzione 2026-09-10 - isolamento visuale:
-Lo stile alternato odd/even resta attivo. SelectedRowBackgroundColor viene applicato solo alle righe che matchano gli ordini correnti presenti in RowsToSelect; le righe cliccate manualmente mantengono il normale colore alternato.
+Lo stile alternato odd/even resta attivo. SelectedRowBackgroundColor viene applicato solo alle righe che matchano gli ordini correnti presenti in RowsToSelect; le righe cliccate manualmente mantengono il normale colore alternato. Se OddRowBackgroundColor, EvenRowBackgroundColor o uno stile condizionale usano lo stesso colore di SelectedRowBackgroundColor su una riga non matchata, il widget lo sostituisce con il fallback alternato per riservare il giallo ai soli ordini correnti.
+
+Correzione 2026-09-10 - indice DOM AG Grid:
+Rimosso il fallback basato su aria-rowindex, che include l offset della riga intestazione e poteva evidenziare anche la riga precedente. L evidenziazione DOM usa esclusivamente row-index: un indice matchato corrisponde ora a una sola riga dati.
 
 Regola AVEVA WONDERWARE:
 Il file CWP importabile resta GB_AGGridSQLWidget_mod2.cwp.
 Il nome interno del Widget resta GB_AGGridSQLWidget_mod2.
 
-SHA256 GB_AGGridSQLWidget_mod2.cwp: 7E2C8144FFF28A1294F090ABDF681F090343764FEFF62099D654949EC0AF623D
+SHA256 GB_AGGridSQLWidget_mod2.cwp: E8A448F7DA4F971EE1A9FAC9A2B7834933CF7D97E5FB643420F520FB340B2A35

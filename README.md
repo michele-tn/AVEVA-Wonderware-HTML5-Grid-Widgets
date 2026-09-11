@@ -165,19 +165,19 @@ Download the MOD2 widget archive here:
 
 Versioned release package:
 
-[GB_AGGridSQLWidget_mod2_RELEASE_v2026.09.10_1711.7z](https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod2_RELEASE_v2026.09.10_1711.7z)
+[GB_AGGridSQLWidget_mod2_RELEASE_v2026.09.10_1911.7z](https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod2_RELEASE_v2026.09.10_1911.7z)
 
 Versioning rule for AVEVA Wonderware: the importable CWP file must keep the exact name `GB_AGGridSQLWidget_mod2.cwp`, and the internal widget name must remain `GB_AGGridSQLWidget_mod2`. Versioning is applied only to the external release folder/package, never to the CWP file name used for import.
 
-Current MOD2 release: `v2026.09.10_1711`.
+Current MOD2 release: `v2026.09.10_1911`.
 
-SHA256 `GB_AGGridSQLWidget_mod2.cwp`: `7E2C8144FFF28A1294F090ABDF681F090343764FEFF62099D654949EC0AF623D`.
+SHA256 `GB_AGGridSQLWidget_mod2.cwp`: `E8A448F7DA4F971EE1A9FAC9A2B7834933CF7D97E5FB643420F520FB340B2A35`.
 
 RowsToSelect exclusive highlight fix: `SelectedRowBackgroundColor` is now applied only to rows matched by `RowsToSelect`. A manually clicked AG Grid row no longer receives the same yellow highlight, so the highlighted row is only the row whose OdP/order matches the current order list.
 
 RowsToSelect strict order fix: when `RowsToSelect` contains an order expression such as `Ordine=OPR26-33069||`, the widget now compares only explicit order/OdP fields and matching order columns. It no longer scans every scalar value in the row, so unrelated rows cannot be highlighted by accidental value matches.
 
-RowsToSelect visual isolation fix: base odd/even row styling is preserved. `SelectedRowBackgroundColor` is applied only to rows that match the current OdP/order values in `RowsToSelect`; rows selected manually by mouse keep their normal odd/even background.
+RowsToSelect visual isolation fix: base odd/even row styling is preserved. `SelectedRowBackgroundColor` is applied only to rows that match the current OdP/order values in `RowsToSelect`; rows selected manually by mouse keep their normal odd/even background. If an odd/even or conditional background tries to use the same color as `SelectedRowBackgroundColor`, the widget replaces it with the safe odd/even fallback so yellow remains reserved for current orders only.
 
 The CWP archive contains:
 
