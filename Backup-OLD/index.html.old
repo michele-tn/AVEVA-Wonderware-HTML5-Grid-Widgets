@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AVEVA Wonderware HTML5 Grid Widgets</title>
+    <meta name="description" content="Guide for AVEVA Wonderware HTML5 Grid Widgets based on AG Grid and Tabulator.">
+    <style>
+:root {
+  --bg: #ffffff;
+  --surface: #fafafa;
+  --surface-strong: #f4f6f8;
+  --text: #2f3a42;
+  --muted: #65717a;
+  --accent: #7a4f3f;
+  --accent-strong: #5f382c;
+  --border: #e6e8eb;
+  --code-bg: #f7f4f2;
+  --code-text: #263238;
+  --shadow: 0 18px 50px rgba(20, 30, 40, .08);
+  --radius: 6px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Calibri, Arial, sans-serif;
+  line-height: 1.62;
+}
+a { color: var(--accent-strong); text-decoration-thickness: .08em; text-underline-offset: .16em; }
+a:hover { color: var(--accent); }
+.page-shell { width: min(1180px, calc(100% - 36px)); margin: 0 auto; padding: 34px 0 64px; }
+.hero { padding: 28px 0 22px; border-bottom: 1px solid var(--border); margin-bottom: 26px; }
+.cover { display: block; width: 100%; height: auto; object-fit: contain; object-position: center; margin: 0 0 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+h1 { margin: 0 0 12px; font-size: 42px; line-height: 1.06; letter-spacing: 0; }
+.lead { max-width: 860px; margin: 0; color: var(--muted); font-size: 19px; }
+.layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 34px; align-items: start; }
+.toc { position: sticky; top: 18px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.toc-title { margin: 0 0 10px; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.toc a { display: block; padding: 6px 0; color: var(--text); text-decoration: none; font-size: 14px; line-height: 1.25; }
+.toc a:hover { color: var(--accent); }
+.toc-level-2 { padding-left: 12px !important; color: var(--muted) !important; }
+.content { min-width: 0; }
+.content > *:first-child { margin-top: 0; }
+h2 { margin-top: 42px; padding-bottom: 8px; border-bottom: 1px solid var(--border); font-size: 28px; line-height: 1.2; }
+h3 { margin-top: 30px; font-size: 22px; line-height: 1.25; }
+h4, h5, h6 { margin-top: 24px; }
+p { margin: 14px 0; }
+ul, ol { padding-left: 24px; margin: 12px 0 18px; }
+li + li { margin-top: 5px; }
+code { padding: 2px 5px; border-radius: 4px; background: var(--code-bg); color: var(--code-text); font-family: "Cascadia Mono", Consolas, "Liberation Mono", monospace; font-size: .92em; }
+pre { overflow: auto; margin: 16px 0 22px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: #f8f9fa; box-shadow: inset 0 1px 0 rgba(255,255,255,.6); }
+pre code { padding: 0; background: transparent; font-size: 13px; line-height: 1.55; }
+.table-wrap { overflow-x: auto; margin: 18px 0 24px; border: 1px solid var(--border); border-radius: var(--radius); }
+table { width: 100%; border-collapse: collapse; min-width: 620px; background: #fff; }
+th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+th { background: var(--surface-strong); color: #263238; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+tr:last-child td { border-bottom: 0; }
+details { margin: 24px 0; border: 1px solid var(--border); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow); }
+summary { cursor: pointer; padding: 15px 18px; color: var(--accent-strong); background: var(--surface); font-weight: 800; }
+details[open] summary { border-bottom: 1px solid var(--border); }
+details > *:not(summary) { margin-left: 18px; margin-right: 18px; }
+details > :last-child { margin-bottom: 20px; }
+img { max-width: 100%; height: auto; }
+@media (max-width: 920px) {
+  .layout { grid-template-columns: 1fr; }
+  .toc { position: static; }
+  h1 { font-size: 34px; }
+}
+@media (max-width: 640px) {
+  .page-shell { width: min(100% - 24px, 1180px); padding-top: 20px; }
+  h1 { font-size: 30px; }
+  .lead { font-size: 17px; }
+}
+</style>
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero">
+        <img class="cover" src="https://michele-tn.github.io/AVEVA-Wonderware-HTML5-Grid-Widgets/post-cover.svg" alt="AVEVA Wonderware HTML5 Grid Widgets">
+        <p class="eyebrow">AVEVA Wonderware / System Platform</p>
+        <h1>HTML5 Grid Widgets Guide</h1>
+        <p class="lead">A practical guide for using AG Grid and Tabulator HTML5/CWP widgets with AVEVA Wonderware and AVEVA System Platform.</p>
+      </section>
+      <div class="layout">
+        <nav class="toc" aria-label="Table of contents">
+          <p class="toc-title">Contents</p>
+          <a class="toc-level-2" href="#design-goals">Design Goals</a>
+<a class="toc-level-2" href="#included-widgets">Included Widgets</a>
+<a class="toc-level-2" href="#widget-properties">Widget Properties</a>
+<a class="toc-level-2" href="#column-definitions">Column Definitions</a>
+<a class="toc-level-2" href="#row-data">Row Data</a>
+<a class="toc-level-2" href="#formatting">Formatting</a>
+<a class="toc-level-2" href="#dropdown-columns">Dropdown Columns</a>
+<a class="toc-level-2" href="#additional-column-properties">Additional Column Properties</a>
+<a class="toc-level-2" href="#filtering">Filtering</a>
+<a class="toc-level-2" href="#styling">Styling</a>
+<a class="toc-level-2" href="#html-entry-point">HTML Entry Point</a>
+<a class="toc-level-2" href="#building-cwp-archives">Building CWP Archives</a>
+<a class="toc-level-2" href="#import-and-runtime-checklist">Import and Runtime Checklist</a>
+<a class="toc-level-2" href="#choosing-a-widget">Choosing a Widget</a>
+        </nav>
+        <article class="content">
+          <p>This repository contains three HTML5/CWP widgets for AVEVA Wonderware / AVEVA System Platform:</p>
+<ul>
+<li><code>GB_AGGridSQLWidget.cwp</code>, based on <a href="https://www.ag-grid.com/example-finance/">AG Grid</a></li>
+<li><code>GB_AGGridSQLWidget_mod.cwp</code>, a modified AG Grid build available from <a href="https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod.cwp">GB_AGGridSQLWidget_mod.cwp</a></li>
+<li><code>GB_TabulatorSQLWidget.cwp</code>, based on <a href="https://www.tabulator.info/examples/6.x/">Tabulator 6.x</a></li>
+</ul>
+<p>All widgets expose common properties so the same HMI/System Platform logic can feed each grid with JSON column definitions and JSON row data.</p>
+<h2 id="design-goals">Design Goals</h2>
+<p>The widgets are designed for AVEVA environments where SQL access and business logic are handled outside the browser widget.</p>
+<p>The widget itself:</p>
+<ul>
+<li>does not open direct SQL Server connections</li>
+<li>does not use <code>fetch</code> or <code>XMLHttpRequest</code></li>
+<li>reads data from the <code>Data</code> widget property</li>
+<li>reads column definitions from the <code>Columns</code> widget property</li>
+<li>writes edited rows back to <code>Data</code></li>
+<li>sets <code>IsDirty</code> to <code>True</code> when a cell edit changes the dataset</li>
+</ul>
+<p>This keeps the browser widget focused on visualization and editing, while the HMI/System Platform layer remains responsible for acquiring and publishing data.</p>
+<h2 id="included-widgets">Included Widgets</h2>
+<h3 id="gb-aggridsqlwidget">GB_AGGridSQLWidget</h3>
+<p><code>GB_AGGridSQLWidget</code> uses AG Grid Community with the Quartz theme. It follows the finance-style AG Grid example approach: a dense, high-performance grid suitable for structured operational or financial data, with sortable/filterable columns, editable cells, formatting, selection styling, and column sizing.</p>
+<p>The CWP archive contains:</p>
+<pre><code class="language-text">GB_AGGridSQLWidget/
+  index.html
+  widget.wjson
+  README.txt
+  build/
+    build.min.css
+    build.min.js
+  resources/
+    libs/
+      ag-grid-community.min.js
+      ag-grid.css
+      ag-theme-quartz.css</code></pre>
+<p>Main implementation notes:</p>
+<ul>
+<li>AG Grid is loaded from <code>./resources/libs/ag-grid-community.min.js</code></li>
+<li>the widget uses <code>ag-theme-quartz</code></li>
+<li>filtering is controlled by <code>IsFilterable</code></li>
+<li>editing is controlled by <code>IsEditable</code></li>
+<li>dropdown editors are mapped to AG Grid select editors through <code>ColumnsOptions</code></li>
+<li>column metadata is compatible with field names such as <code>prop</code>, <code>name</code>, <code>title</code>, <code>size</code>, and <code>minSize</code></li>
+</ul>
+<details>
+<summary><strong>Click to show GB_AGGridSQLWidget_mod updates</strong></summary>
+<h3 id="gb-aggridsqlwidget-mod">GB_AGGridSQLWidget_mod</h3>
+<p><code>GB_AGGridSQLWidget_mod</code> is a modified AG Grid CWP widget for AVEVA Wonderware / AVEVA System Platform. It keeps the same external data contract as the standard AG Grid widget while adding color fixes, conditional cell styling, and parsing improvements for AVEVA-style JSON strings.</p>
+<p>Download the modified widget archive here:</p>
+<p><a href="https://github.com/michele-tn/AVEVA-Wonderware-HTML5-Grid-Widgets/raw/refs/heads/main/GB_AGGridSQLWidget_mod.cwp">GB_AGGridSQLWidget_mod.cwp</a></p>
+<p>The CWP archive contains:</p>
+<pre><code class="language-text">GB_AGGridSQLWidget_mod/
+  index.html
+  widget.wjson
+  README.txt
+  build/
+    build.min.css
+    build.min.js
+  resources/
+    libs/
+      ag-grid-community.min.js
+      ag-grid.css
+      ag-theme-quartz.css</code></pre>
+<p>Widget property contract:</p>
+<ul>
+<li><code>Columns</code>: JSON array of column definitions.</li>
+<li><code>Data</code>: JSON array of row objects.</li>
+<li><code>FontSize</code>, <code>HeaderHeight</code>, <code>HeaderFontSize</code>, <code>RowHeight</code>: grid appearance settings.</li>
+<li><code>IsDirty</code>: written by the widget when a cell is modified.</li>
+<li><code>IsEditable</code>: enables or disables editing.</li>
+<li><code>IsDebugMode</code>: enables console logging.</li>
+<li><code>ColumnsProperties</code>: JSON array of additional per-column attributes.</li>
+<li><code>ColumnsOptions</code>: JSON array of dropdown options per column.</li>
+<li><code>ConditionalCellStyles</code>: JSON array of rules used to change cell text/background styling from row data.</li>
+</ul>
+<p>As with the standard widgets, <code>GB_AGGridSQLWidget_mod</code> does not open direct SQL Server connections and does not use <code>fetch</code> or <code>XMLHttpRequest</code>. SQL Server access must be handled by the HMI/System Platform layer, which publishes rows to <code>Data</code> and column definitions to <code>Columns</code>.</p>
+<p>Main updates in the modified version:</p>
+<ul>
+<li>Adds customizable alternating row colors.</li>
+<li>Adds color properties for header, rows, selected row, text, and border styling.</li>
+<li>Adds the <code>ConditionalCellStyles</code> widget property.</li>
+<li>Refreshes cells after a cell edit so conditional styles are recalculated immediately.</li>
+<li>Accepts JSON passed by AVEVA as a quoted string.</li>
+<li>Accepts AVEVA strings with doubled internal quotes, such as <code>&quot;[{&quot;&quot;field&quot;&quot;:&quot;&quot;Value&quot;&quot;}]&quot;</code>.</li>
+<li>Allows <code>ColumnsProperties</code> to be provided either as a JSON array or as a pipe-separated list, such as <code>{&quot;editable&quot;:false}|{&quot;filter&quot;:false}</code>.</li>
+<li>Matches conditional-style field names even when accents or case differ, for example <code>Quantita</code> and <code>Quantità</code>.</li>
+<li>Honors <code>editable:false</code>, <code>readonly:true</code>, <code>readOnly:true</code>, <code>filter:false</code>, <code>filterable:false</code>, and <code>isFilterable:false</code> from <code>ColumnsProperties</code>.</li>
+<li>Generates the CWP archive with the layout expected by <code>New-CwpFromFolder_CORRETTO.ps1</code>: ZIP entries use backslashes, the root widget folder is included, and explicit directory entries are omitted.</li>
+</ul>
+<p>Example <code>ConditionalCellStyles</code> value:</p>
+<pre><code class="language-json">[
+  {
+    &quot;targetField&quot;: &quot;Quantity&quot;,
+    &quot;when&quot;: {
+      &quot;field&quot;: &quot;Notes&quot;,
+      &quot;operator&quot;: &quot;notEmpty&quot;
+    },
+    &quot;textColor&quot;: &quot;#ff0000&quot;
+  },
+  {
+    &quot;targetField&quot;: &quot;Quantity&quot;,
+    &quot;when&quot;: {
+      &quot;field&quot;: &quot;Quantity&quot;,
+      &quot;operator&quot;: &quot;&gt;&quot;,
+      &quot;value&quot;: 300
+    },
+    &quot;textColor&quot;: &quot;#ff0000&quot;,
+    &quot;backgroundColor&quot;: &quot;#fff2cc&quot;
+  }
+]</code></pre>
+<p>Supported conditional-style fields:</p>
+<ul>
+<li>target field aliases: <code>targetField</code>, <code>target</code>, <code>column</code></li>
+<li>condition fields: <code>when.field</code>, <code>when.operator</code>, <code>when.value</code></li>
+<li>positive style fields: <code>textColor</code>, <code>color</code>, <code>backgroundColor</code>, <code>bgColor</code>, <code>fontWeight</code>, <code>fontStyle</code></li>
+<li>fallback style fields: <code>elseTextColor</code>, <code>elseColor</code>, <code>elseBackgroundColor</code>, <code>elseBgColor</code>, <code>elseFontWeight</code>, <code>elseFontStyle</code></li>
+</ul>
+<p>Supported operators:</p>
+<pre><code class="language-text">notEmpty, empty, notNull, isNull, equals, notEquals, contains,
+startsWith, endsWith, in, notIn, &gt;, &gt;=, &lt;, &lt;=</code></pre>
+</details>
+<h3 id="gb-tabulatorsqlwidget">GB_TabulatorSQLWidget</h3>
+<p><code>GB_TabulatorSQLWidget</code> uses Tabulator 6.x. It follows the Tabulator examples model for interactive data tables: JSON data, editable cells, sortable columns, header filters, formatters, responsive column definitions, and local data rendering.</p>
+<p>The CWP archive contains:</p>
+<pre><code class="language-text">GB_TabulatorSQLWidget/
+  index.html
+  widget.wjson
+  README.txt
+  build/
+    build.min.css
+    build.min.js
+  resources/
+    libs/
+      tabulator.min.css
+      tabulator.min.js</code></pre>
+<p>Main implementation notes:</p>
+<ul>
+<li>Tabulator is loaded from <code>./resources/libs/tabulator.min.js</code></li>
+<li>filtering is controlled by <code>IsFilterable</code></li>
+<li>editing is controlled by <code>IsEditable</code></li>
+<li>dropdown editors are mapped to Tabulator list editors through <code>ColumnsOptions</code></li>
+<li>date-like columns can use an HTML5 calendar filter when <code>DateFilterAsCalendar=True</code></li>
+<li>column metadata is compatible with field names such as <code>prop</code>, <code>name</code>, <code>headerName</code>, and <code>size</code></li>
+</ul>
+<h2 id="widget-properties">Widget Properties</h2>
+<p>All widgets use these core properties:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Property</th><th>Type</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>Columns</code></td><td>String</td><td>JSON array of column definitions.</td></tr>
+<tr><td><code>Data</code></td><td>String</td><td>JSON array of row objects.</td></tr>
+<tr><td><code>FontSize</code></td><td>Integer</td><td>Cell font size in points.</td></tr>
+<tr><td><code>HeaderHeight</code></td><td>Integer</td><td>Header height in pixels.</td></tr>
+<tr><td><code>HeaderFontSize</code></td><td>Integer</td><td>Header font size in points.</td></tr>
+<tr><td><code>RowHeight</code></td><td>Integer</td><td>Row height in pixels.</td></tr>
+<tr><td><code>IsDirty</code></td><td>Boolean</td><td>Set by the widget when edited data is published back to <code>Data</code>.</td></tr>
+<tr><td><code>IsEditable</code></td><td>Boolean</td><td>Enables or disables cell editing.</td></tr>
+<tr><td><code>IsFilterable</code></td><td>Boolean</td><td>Enables or disables column/header filtering.</td></tr>
+<tr><td><code>IsDebugMode</code></td><td>Boolean</td><td>Enables console logging for diagnostics.</td></tr>
+<tr><td><code>ColumnsProperties</code></td><td>String</td><td>JSON array with additional per-column options.</td></tr>
+<tr><td><code>ColumnsOptions</code></td><td>String</td><td>JSON array with dropdown/list options per column.</td></tr>
+<tr><td><code>HeaderBackgroundColor</code></td><td>String</td><td>Header background color.</td></tr>
+<tr><td><code>HeaderTextColor</code></td><td>String</td><td>Header text color.</td></tr>
+<tr><td><code>OddRowBackgroundColor</code></td><td>String</td><td>Odd row background color.</td></tr>
+<tr><td><code>EvenRowBackgroundColor</code></td><td>String</td><td>Even row background color.</td></tr>
+<tr><td><code>SelectedRowBackgroundColor</code></td><td>String</td><td>Selected row background color.</td></tr>
+<tr><td><code>RowTextColor</code></td><td>String</td><td>Row text color.</td></tr>
+<tr><td><code>BorderColor</code></td><td>String</td><td>Grid border color.</td></tr>
+</tbody></table></div>
+<p><code>GB_TabulatorSQLWidget</code> also includes:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Property</th><th>Type</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>DateFilterAsCalendar</code></td><td>Boolean</td><td>Uses an HTML5 date input for date-like header filters.</td></tr>
+</tbody></table></div>
+<p><code>GB_AGGridSQLWidget_mod</code> also includes:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Property</th><th>Type</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>ConditionalCellStyles</code></td><td>String</td><td>JSON array of conditional rules used to change cell text, background, font weight, and font style from row data.</td></tr>
+</tbody></table></div>
+<h2 id="column-definitions">Column Definitions</h2>
+<p>The <code>Columns</code> property must contain a JSON array. Each object describes one grid column.</p>
+<p>Example:</p>
+<pre><code class="language-json">[
+  {
+    &quot;prop&quot;: &quot;Symbol&quot;,
+    &quot;name&quot;: &quot;Symbol&quot;,
+    &quot;size&quot;: 90
+  },
+  {
+    &quot;prop&quot;: &quot;Description&quot;,
+    &quot;name&quot;: &quot;Description&quot;,
+    &quot;size&quot;: 220
+  },
+  {
+    &quot;prop&quot;: &quot;LastPrice&quot;,
+    &quot;name&quot;: &quot;Last Price&quot;,
+    &quot;size&quot;: 120,
+    &quot;formatting&quot;: &quot;decimal2&quot;
+  },
+  {
+    &quot;prop&quot;: &quot;TradeDate&quot;,
+    &quot;name&quot;: &quot;Trade Date&quot;,
+    &quot;size&quot;: 130,
+    &quot;formatting&quot;: &quot;date&quot;
+  }
+]</code></pre>
+<p>Supported compatibility aliases:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Generic field</th><th>AG Grid mapping</th><th>Tabulator mapping</th></tr></thead>
+<tbody>
+<tr><td><code>prop</code></td><td><code>field</code></td><td><code>field</code></td></tr>
+<tr><td><code>name</code></td><td><code>headerName</code></td><td><code>title</code></td></tr>
+<tr><td><code>title</code></td><td><code>headerName</code></td><td><code>title</code></td></tr>
+<tr><td><code>headerName</code></td><td><code>headerName</code></td><td><code>title</code></td></tr>
+<tr><td><code>size</code></td><td><code>width</code></td><td><code>width</code></td></tr>
+<tr><td><code>minSize</code></td><td><code>minWidth</code></td><td>custom column property if supported</td></tr>
+</tbody></table></div>
+<p>If <code>Columns</code> is empty and <code>Data</code> contains at least one row, the widgets infer columns from the keys in the first row.</p>
+<h2 id="row-data">Row Data</h2>
+<p>The <code>Data</code> property must contain a JSON array of objects. Object keys must match the column <code>prop</code> or <code>field</code> values.</p>
+<p>Example:</p>
+<pre><code class="language-json">[
+  {
+    &quot;Symbol&quot;: &quot;AVEVA&quot;,
+    &quot;Description&quot;: &quot;Industrial software portfolio&quot;,
+    &quot;LastPrice&quot;: 123.45,
+    &quot;TradeDate&quot;: &quot;2026-06-16&quot;
+  },
+  {
+    &quot;Symbol&quot;: &quot;SQL01&quot;,
+    &quot;Description&quot;: &quot;Historian query result&quot;,
+    &quot;LastPrice&quot;: 98.7,
+    &quot;TradeDate&quot;: &quot;2026-06-17&quot;
+  }
+]</code></pre>
+<p>When a user edits a cell:</p>
+<ol>
+<li>the widget updates its internal grid data</li>
+<li>the complete row array is serialized back into <code>Data</code></li>
+<li><code>IsDirty</code> is set to <code>True</code></li>
+</ol>
+<p>The HMI/System Platform layer can watch <code>IsDirty</code>, process the changed <code>Data</code>, and then reset <code>IsDirty</code> when the change has been handled.</p>
+<h2 id="formatting">Formatting</h2>
+<p>The widgets support the following <code>formatting</code> values:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Value</th><th>Output</th></tr></thead>
+<tbody>
+<tr><td><code>date</code></td><td>Localized date using <code>it-IT</code>.</td></tr>
+<tr><td><code>time</code></td><td>Localized time using <code>it-IT</code>.</td></tr>
+<tr><td><code>datetime</code></td><td>Localized date and time using <code>it-IT</code>.</td></tr>
+<tr><td><code>integer</code></td><td>Integer with localized separators.</td></tr>
+<tr><td><code>decimal</code></td><td>Decimal with localized separators.</td></tr>
+<tr><td><code>decimal1</code></td><td>Decimal with one fixed fraction digit.</td></tr>
+<tr><td><code>decimal2</code></td><td>Decimal with two fixed fraction digits.</td></tr>
+<tr><td><code>decimal3</code></td><td>Decimal with three fixed fraction digits.</td></tr>
+</tbody></table></div>
+<p>Example:</p>
+<pre><code class="language-json">[
+  {
+    &quot;prop&quot;: &quot;Quantity&quot;,
+    &quot;name&quot;: &quot;Quantity&quot;,
+    &quot;formatting&quot;: &quot;integer&quot;,
+    &quot;size&quot;: 100
+  },
+  {
+    &quot;prop&quot;: &quot;Value&quot;,
+    &quot;name&quot;: &quot;Value&quot;,
+    &quot;formatting&quot;: &quot;decimal2&quot;,
+    &quot;size&quot;: 120
+  }
+]</code></pre>
+<h2 id="dropdown-columns">Dropdown Columns</h2>
+<p>Use <code>ColumnsOptions</code> to define dropdown/list values by column index.</p>
+<p>Example:</p>
+<pre><code class="language-json">[
+  [],
+  [
+    { &quot;value&quot;: &quot;OPEN&quot;, &quot;text&quot;: &quot;Open&quot; },
+    { &quot;value&quot;: &quot;CLOSED&quot;, &quot;text&quot;: &quot;Closed&quot; },
+    { &quot;value&quot;: &quot;HOLD&quot;, &quot;text&quot;: &quot;On Hold&quot; }
+  ],
+  []
+]</code></pre>
+<p>For a column at the same index:</p>
+<pre><code class="language-json">[
+  { &quot;prop&quot;: &quot;Id&quot;, &quot;name&quot;: &quot;ID&quot;, &quot;size&quot;: 80 },
+  {
+    &quot;prop&quot;: &quot;Status&quot;,
+    &quot;name&quot;: &quot;Status&quot;,
+    &quot;size&quot;: 120,
+    &quot;optionsValue&quot;: &quot;value&quot;,
+    &quot;optionsText&quot;: &quot;text&quot;
+  },
+  { &quot;prop&quot;: &quot;Notes&quot;, &quot;name&quot;: &quot;Notes&quot;, &quot;size&quot;: 250 }
+]</code></pre>
+<p>AG Grid uses the option values as select editor values. Tabulator uses value/text pairs when available.</p>
+<h2 id="additional-column-properties">Additional Column Properties</h2>
+<p>Use <code>ColumnsProperties</code> to merge advanced options into each column by index.</p>
+<p>Example:</p>
+<pre><code class="language-json">[
+  {
+    &quot;pinned&quot;: &quot;left&quot;,
+    &quot;readonly&quot;: true
+  },
+  {
+    &quot;hozAlign&quot;: &quot;right&quot;,
+    &quot;sorter&quot;: &quot;number&quot;
+  }
+]</code></pre>
+<p>Because AG Grid and Tabulator use different option names, keep shared column definitions simple and put library-specific options in <code>ColumnsProperties</code> only when the selected widget supports them.</p>
+<p><code>GB_AGGridSQLWidget_mod</code> also accepts <code>ColumnsProperties</code> as a pipe-separated list when AVEVA integration makes a plain JSON array inconvenient:</p>
+<pre><code class="language-text">{&quot;editable&quot;:false}|{&quot;filter&quot;:false}</code></pre>
+<p>For the modified AG Grid widget, the following column flags are recognized when present in <code>ColumnsProperties</code>:</p>
+<pre><code class="language-text">editable:false, readonly:true, readOnly:true,
+filter:false, filterable:false, isFilterable:false</code></pre>
+<h2 id="filtering">Filtering</h2>
+<p>Set <code>IsFilterable=True</code> to enable filtering.</p>
+<p>For AG Grid:</p>
+<ul>
+<li>filters are enabled at column level</li>
+<li>filter buttons are visible in the header</li>
+<li>setting <code>filter:false</code> on a column disables filtering for that column</li>
+</ul>
+<p>For Tabulator:</p>
+<ul>
+<li>header filters are enabled at column level</li>
+<li>string columns use text inputs by default</li>
+<li>date-like columns can use a calendar input when <code>DateFilterAsCalendar=True</code></li>
+<li>date-like detection uses <code>formatting:&quot;date&quot;</code>, <code>formatting:&quot;datetime&quot;</code>, or labels/fields containing values such as <code>date</code>, <code>data</code>, or <code>giorno</code></li>
+</ul>
+<p>Set <code>IsFilterable=False</code> to clear and disable filters.</p>
+<h2 id="styling">Styling</h2>
+<p>The widgets expose color properties so the same CWP can be themed from AVEVA without rebuilding the archive.</p>
+<p>Default palette:</p>
+<pre><code class="language-text">HeaderBackgroundColor     #840000
+HeaderTextColor           #ffffff
+OddRowBackgroundColor     #ffffff
+EvenRowBackgroundColor    #f8f6fb
+SelectedRowBackgroundColor #fef2c6
+RowTextColor              #222222
+BorderColor               #dddddd</code></pre>
+<p>Both widgets use <code>Calibri Light</code> first, with standard web font fallbacks.</p>
+<p><code>GB_AGGridSQLWidget_mod</code> supports conditional cell styling through the <code>ConditionalCellStyles</code> property. Rules are evaluated against row data and can update the target cell text color, background color, font weight, and font style.</p>
+<p>Example:</p>
+<pre><code class="language-json">[
+  {
+    &quot;targetField&quot;: &quot;Quantity&quot;,
+    &quot;when&quot;: {
+      &quot;field&quot;: &quot;Notes&quot;,
+      &quot;operator&quot;: &quot;notEmpty&quot;
+    },
+    &quot;textColor&quot;: &quot;#ff0000&quot;
+  },
+  {
+    &quot;targetField&quot;: &quot;Quantity&quot;,
+    &quot;when&quot;: {
+      &quot;field&quot;: &quot;Quantity&quot;,
+      &quot;operator&quot;: &quot;&gt;&quot;,
+      &quot;value&quot;: 300
+    },
+    &quot;textColor&quot;: &quot;#ff0000&quot;,
+    &quot;backgroundColor&quot;: &quot;#fff2cc&quot;
+  }
+]</code></pre>
+<p>Supported conditional-style fields:</p>
+<ul>
+<li>target field aliases: <code>targetField</code>, <code>target</code>, <code>column</code></li>
+<li>condition fields: <code>when.field</code>, <code>when.operator</code>, <code>when.value</code></li>
+<li>positive style fields: <code>textColor</code>, <code>color</code>, <code>backgroundColor</code>, <code>bgColor</code>, <code>fontWeight</code>, <code>fontStyle</code></li>
+<li>fallback style fields: <code>elseTextColor</code>, <code>elseColor</code>, <code>elseBackgroundColor</code>, <code>elseBgColor</code>, <code>elseFontWeight</code>, <code>elseFontStyle</code></li>
+</ul>
+<p>Supported operators:</p>
+<pre><code class="language-text">notEmpty, empty, notNull, isNull, equals, notEquals, contains,
+startsWith, endsWith, in, notIn, &gt;, &gt;=, &lt;, &lt;=</code></pre>
+<p>After a cell edit, <code>GB_AGGridSQLWidget_mod</code> refreshes cells so conditional styles are recalculated immediately. It also matches field names across case and accent differences, for example <code>Quantita</code> and <code>Quantità</code>.</p>
+<p>When AVEVA passes JSON as a quoted string, or with doubled internal quotes such as <code>&quot;[{&quot;&quot;field&quot;&quot;:&quot;&quot;Value&quot;&quot;}]&quot;</code>, the modified AG Grid widget normalizes the value before parsing it.</p>
+<h2 id="html-entry-point">HTML Entry Point</h2>
+<p>Each widget loads the AVEVA widget proxy from:</p>
+<pre><code class="language-html">&lt;script src=&quot;../resources/apis/proxy.js&quot; cwidget=&quot;widget&quot; autoResize=&quot;disable&quot;&gt;&lt;/script&gt;</code></pre>
+<p>The grid fills the full widget area:</p>
+<pre><code class="language-html">&lt;div id=&quot;grid&quot;&gt;&lt;/div&gt;</code></pre>
+<p>For AG Grid, the element also includes the AG Grid theme class:</p>
+<pre><code class="language-html">&lt;div id=&quot;grid&quot; class=&quot;ag-theme-quartz&quot;&gt;&lt;/div&gt;</code></pre>
+<h2 id="building-cwp-archives">Building CWP Archives</h2>
+<p>Use <code>CWP Archive Generator.ps1</code> to create the CWP archives. The script is important because it produces the internal archive layout expected by AVEVA.</p>
+<p>The script:</p>
+<ul>
+<li>includes the widget root folder inside the archive</li>
+<li>writes internal ZIP paths with backslashes</li>
+<li>adds file entries only, without explicit directory entries</li>
+<li>sorts files by full path before adding them</li>
+<li>normalizes text files to UTF-8 without BOM</li>
+<li>normalizes text line endings to LF</li>
+<li>preserves binary files as raw bytes</li>
+<li>resolves relative output paths from the current PowerShell directory instead of <code>C:\Windows\System32</code></li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-powershell">.\CWP Archive Generator.ps1 `
+  -SourceFolder &quot;.\GB_AGGridSQLWidget&quot; `
+  -OutputCwp &quot;.\GB_AGGridSQLWidget.cwp&quot;</code></pre>
+<pre><code class="language-powershell">.\CWP Archive Generator.ps1 `
+  -SourceFolder &quot;.\GB_AGGridSQLWidget_mod&quot; `
+  -OutputCwp &quot;.\GB_AGGridSQLWidget_mod.cwp&quot;</code></pre>
+<pre><code class="language-powershell">.\CWP Archive Generator.ps1 `
+  -SourceFolder &quot;.\GB_TabulatorSQLWidget&quot; `
+  -OutputCwp &quot;.\GB_TabulatorSQLWidget.cwp&quot;</code></pre>
+<p>Run the command from the folder that contains both the widget source folder and <code>CWP Archive Generator.ps1</code>.</p>
+<p>Expected archive root examples:</p>
+<pre><code class="language-text">GB_AGGridSQLWidget\index.html
+GB_AGGridSQLWidget\widget.wjson
+GB_AGGridSQLWidget\build\build.min.js</code></pre>
+<pre><code class="language-text">GB_AGGridSQLWidget_mod\index.html
+GB_AGGridSQLWidget_mod\widget.wjson
+GB_AGGridSQLWidget_mod\build\build.min.js</code></pre>
+<pre><code class="language-text">GB_TabulatorSQLWidget\index.html
+GB_TabulatorSQLWidget\widget.wjson
+GB_TabulatorSQLWidget\build\build.min.js</code></pre>
+<p>Do not create a CWP by manually compressing only the files inside the widget folder. The archive must contain the widget root folder as the first path segment.</p>
+<h2 id="import-and-runtime-checklist">Import and Runtime Checklist</h2>
+<p>Before importing a CWP into AVEVA:</p>
+<ul>
+<li>verify that <code>index.html</code> is at <code>&lt;WidgetName&gt;\index.html</code> inside the archive</li>
+<li>verify that <code>widget.wjson</code> is at <code>&lt;WidgetName&gt;\widget.wjson</code></li>
+<li>verify that all JavaScript and CSS libraries are under <code>&lt;WidgetName&gt;\resources\libs\</code></li>
+<li>verify that text files are UTF-8 without BOM</li>
+<li>verify that the widget receives valid JSON strings in <code>Columns</code> and <code>Data</code></li>
+<li>verify that <code>IsEditable</code>, <code>IsFilterable</code>, and color properties are set as expected</li>
+<li>for <code>GB_AGGridSQLWidget_mod</code>, verify that <code>ConditionalCellStyles</code> is valid JSON when conditional styling is used</li>
+</ul>
+<p>At runtime:</p>
+<ul>
+<li>publish rows to <code>Data</code></li>
+<li>publish columns to <code>Columns</code></li>
+<li>use <code>ColumnsOptions</code> for dropdown/list editors</li>
+<li>use <code>ColumnsProperties</code> for advanced per-column behavior</li>
+<li>use <code>ConditionalCellStyles</code> with <code>GB_AGGridSQLWidget_mod</code> for row-data-driven cell styling</li>
+<li>watch <code>IsDirty</code> to detect user edits</li>
+<li>read the updated <code>Data</code> value after edits</li>
+</ul>
+<h2 id="choosing-a-widget">Choosing a Widget</h2>
+<p>Use <code>GB_AGGridSQLWidget</code> when you want an AG Grid style table with Quartz theming, fast column sizing, AG Grid filtering, and a finance-dashboard style foundation.</p>
+<p>Use <code>GB_AGGridSQLWidget_mod</code> when you want the AG Grid foundation plus AVEVA-friendly parsing, customizable row/header colors, immediate conditional-style refresh after edits, and <code>ConditionalCellStyles</code> rules.</p>
+<p>Use <code>GB_TabulatorSQLWidget</code> when you want a Tabulator 6.x style table with header filters, list editors, local data behavior, and flexible Tabulator column configuration.</p>
+<p>All widgets are intentionally fed through the same JSON property, so switching between them should mostly require adapting only advanced library-specific column options.</p>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

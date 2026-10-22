@@ -1,0 +1,383 @@
+' GBDataGrid2_MOD3 - replacement SQL loading script.
+' NEW PRIVATE CPs: RefreshInCorso (Boolean=False), CacheConfigurazioneColonne (String="").
+' The query is still SYNCHRONOUS. Do not run it in the fast clock timer.
+' DBObject/ColumnsList/DBWhere/DBOrderBy must come from trusted configuration.
+
+Dim connection As System.Data.SqlClient.SqlConnection;
+Dim connectionSettings As System.Data.SqlClient.SqlConnectionStringBuilder;
+Dim command As System.Data.SqlClient.SqlCommand;
+Dim reader As System.Data.SqlClient.SqlDataReader;
+Dim quoteBuilder As System.Data.SqlClient.SqlCommandBuilder;
+Dim stopwatch As System.Diagnostics.Stopwatch;
+Dim delimiter[1] As System.String;
+Dim columns[100] As System.String;
+Dim widths[100] As System.String;
+Dim headers[100] As System.String;
+Dim formatting[100] As System.String;
+Dim selectionValues[100] As System.String;
+Dim jsonParts[3] As System.String;
+Dim dataBuilder As System.Text.StringBuilder;
+Dim columnsBuilder As System.Text.StringBuilder;
+Dim parameterBuilder As System.Text.StringBuilder;
+Dim i As Integer;
+Dim j As Integer;
+Dim controlCode As Integer;
+Dim equalPosition As Integer;
+Dim chunks As Integer;
+Dim parameterCount As Integer;
+Dim commandTimeoutLocal As Integer;
+Dim widthValue As Double;
+Dim phaseStarted As Double;
+Dim configurationMs As Double;
+Dim connectionMs As Double;
+Dim executeMs As Double;
+Dim readMs As Double;
+Dim phase As String;
+Dim whereClause As String;
+Dim orderClause As String;
+Dim selectionFormula As String;
+Dim selectionText As String;
+Dim selectionField As String;
+Dim selectionItem As String;
+Dim parameterName As String;
+Dim columnsListLocal As String;
+Dim widthsLocal As String;
+Dim headersLocal As String;
+Dim formattingLocal As String;
+Dim serverLocal As String;
+Dim databaseLocal As String;
+Dim objectLocal As String;
+Dim whereLocal As String;
+Dim orderLocal As String;
+Dim configurationKey As String;
+Dim columnsJson As String;
+Dim dataJson As String;
+Dim jsonQuote As String;
+Dim jsonSlash As String;
+Dim errorText As String;
+Dim errorDetail As String;
+Dim configurationOK As Boolean;
+Dim rebuildColumns As Boolean;
+Dim dataReady As Boolean;
+Dim changedData As Boolean;
+Dim cleanupWarning As Boolean;
+Dim maintainSqlCssClass As Boolean;
+
+' MOD3 computes selection and colors using its own RowsToSelect.
+' Set True ONLY if another component still requires cssClass in GridData.
+maintainSqlCssClass = False;
+
+If RefreshInCorso == False Then
+
+    If (Not IsDirty) And (Not IsEditing) Then
+
+        RefreshInCorso = True;
+        connection = null;
+        command = null;
+        reader = null;
+        quoteBuilder = null;
+        stopwatch = null;
+        configurationOK = True;
+        dataReady = False;
+        changedData = False;
+        cleanupWarning = False;
+        columnsJson = "";
+        dataJson = "";
+        errorText = "";
+        errorDetail = "";
+        configurationMs = 0;
+        connectionMs = 0;
+        executeMs = 0;
+        readMs = 0;
+        chunks = 0;
+        phase = "Configuration";
+
+        Try
+            stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+
+            ' Capture inputs once for this loading attempt.
+            columnsListLocal = ColumnsList;
+            widthsLocal = ColumnsWidths;
+            headersLocal = ColumnsHeaders;
+            formattingLocal = ColumnsFormatting;
+            serverLocal = DBServer;
+            databaseLocal = DBName;
+            objectLocal = DBObject;
+            whereLocal = DBWhere;
+            orderLocal = DBOrderBy;
+            selectionText = RowsToSelect;
+            commandTimeoutLocal = CommandTimeout;
+
+            If System.String.IsNullOrWhiteSpace(columnsListLocal) Then
+                configurationOK = False;
+                errorText = "ColumnsList is not configured.";
+            EndIf;
+            If System.String.IsNullOrWhiteSpace(objectLocal) Then
+                configurationOK = False;
+                errorText = "DBObject is not configured.";
+            EndIf;
+            If System.String.IsNullOrWhiteSpace(serverLocal) Then
+                configurationOK = False;
+                errorText = "DBServer is not configured.";
+            EndIf;
+            If System.String.IsNullOrWhiteSpace(databaseLocal) Then
+                configurationOK = False;
+                errorText = "DBName is not configured.";
+            EndIf;
+            If commandTimeoutLocal <= 0 Then
+                configurationOK = False;
+                errorText = "CommandTimeout must be positive; 0 means unlimited command waiting.";
+            EndIf;
+
+            If configurationOK Then
+                If widthsLocal == null Then widthsLocal = ""; EndIf;
+                If headersLocal == null Then headersLocal = ""; EndIf;
+                If formattingLocal == null Then formattingLocal = ""; EndIf;
+                If whereLocal == null Then whereLocal = ""; EndIf;
+                If orderLocal == null Then orderLocal = ""; EndIf;
+                If selectionText == null Then selectionText = ""; EndIf;
+
+                delimiter[1] = "|";
+                configurationKey = columnsListLocal.Length.ToString() + ":" + columnsListLocal +
+                                   headersLocal.Length.ToString() + ":" + headersLocal +
+                                   widthsLocal.Length.ToString() + ":" + widthsLocal +
+                                   formattingLocal.Length.ToString() + ":" + formattingLocal;
+
+                rebuildColumns = CacheConfigurazioneColonne <> configurationKey;
+                If GridColumns == "[]" Then rebuildColumns = True; EndIf;
+                If System.String.IsNullOrEmpty(GridColumns) Then rebuildColumns = True; EndIf;
+
+                If rebuildColumns Then
+                    columns = columnsListLocal.Split(delimiter, System.StringSplitOptions.None);
+                    widths = widthsLocal.Split(delimiter, System.StringSplitOptions.None);
+                    headers = headersLocal.Split(delimiter, System.StringSplitOptions.None);
+                    formatting = formattingLocal.Split(delimiter, System.StringSplitOptions.None);
+
+                    columnsBuilder = new System.Text.StringBuilder();
+                    jsonQuote = System.Char.ConvertFromUtf32(34);
+                    jsonSlash = System.Char.ConvertFromUtf32(92);
+
+                    ' Preserve legacy behavior: create only columns with nonempty headers.
+                    ' Array bounds checks are nested and do not rely on And short-circuit behavior.
+                    For i = 1 To columns.Length
+                        If i <= headers.Length Then
+                            If headers[i] <> "" Then
+                                jsonParts[1] = columns[i];
+                                jsonParts[2] = headers[i];
+                                jsonParts[3] = "";
+                                If i <= formatting.Length Then jsonParts[3] = formatting[i]; EndIf;
+
+                                For j = 1 To 3
+                                    jsonParts[j] = jsonParts[j].Replace(jsonSlash, jsonSlash + jsonSlash);
+                                    jsonParts[j] = jsonParts[j].Replace(jsonQuote, jsonSlash + jsonQuote);
+                                    For controlCode = 0 To 31
+                                        jsonParts[j] = jsonParts[j].Replace(System.Char.ConvertFromUtf32(controlCode), jsonSlash + "u" + controlCode.ToString("x4"));
+                                    Next;
+                                Next;
+
+                                If columnsBuilder.Length > 0 Then columnsBuilder.Append(","); EndIf;
+                                columnsBuilder.Append("{" + jsonQuote + "prop" + jsonQuote + ":" + jsonQuote + jsonParts[1] + jsonQuote);
+                                columnsBuilder.Append("," + jsonQuote + "name" + jsonQuote + ":" + jsonQuote + jsonParts[2] + jsonQuote);
+
+                                If i <= widths.Length Then
+                                    If widths[i] <> "" Then
+                                        widthValue = System.Double.Parse(widths[i], System.Globalization.CultureInfo.InvariantCulture);
+                                        If widthValue > 0 Then
+                                            If Not System.Double.IsInfinity(widthValue) Then
+                                                columnsBuilder.Append("," + jsonQuote + "size" + jsonQuote + ":" + widthValue.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                                            Else
+                                                configurationOK = False;
+                                                errorText = "Column width must be finite.";
+                                            EndIf;
+                                        Else
+                                            configurationOK = False;
+                                            errorText = "Invalid column width: use a positive number.";
+                                        EndIf;
+                                    EndIf;
+                                EndIf;
+                                If jsonParts[3] <> "" Then
+                                    columnsBuilder.Append("," + jsonQuote + "formatting" + jsonQuote + ":" + jsonQuote + jsonParts[3] + jsonQuote);
+                                EndIf;
+                                columnsBuilder.Append("}");
+                            EndIf;
+                        EndIf;
+                    Next;
+                    columnsJson = "[" + columnsBuilder.ToString() + "]";
+                EndIf;
+
+                connectionSettings = new System.Data.SqlClient.SqlConnectionStringBuilder();
+                connectionSettings.DataSource = serverLocal;
+                connectionSettings.InitialCatalog = databaseLocal;
+                connectionSettings.IntegratedSecurity = True;
+                connectionSettings.Pooling = True;
+                connection = new System.Data.SqlClient.SqlConnection(connectionSettings.ConnectionString);
+                command = new System.Data.SqlClient.SqlCommand();
+                command.Connection = connection;
+                command.CommandTimeout = commandTimeoutLocal;
+
+                whereClause = "";
+                orderClause = "";
+                If whereLocal.Length > 0 Then whereClause = " WHERE (" + whereLocal + ")"; EndIf;
+                If orderLocal.Length > 0 Then orderClause = " ORDER BY " + orderLocal; EndIf;
+
+                selectionFormula = "";
+                If maintainSqlCssClass Then
+                    selectionText = selectionText.Trim();
+                    If selectionText.Length > 0 Then
+                        If (selectionText.ToLowerInvariant() <> "none") And
+                           (selectionText.ToLowerInvariant() <> "null") And
+                           (selectionText.ToLowerInvariant() <> "undefined") And
+                           (selectionText <> "[]") And (selectionText <> "-") Then
+
+                            equalPosition = selectionText.IndexOf("=");
+                            If equalPosition > 0 Then
+                                selectionField = selectionText.Substring(0, equalPosition).Trim();
+                                selectionValues = selectionText.Substring(equalPosition + 1).Split(delimiter, System.StringSplitOptions.None);
+                                parameterBuilder = new System.Text.StringBuilder();
+                                parameterCount = 0;
+                                For i = 1 To selectionValues.Length
+                                    selectionItem = selectionValues[i].Trim();
+                                    If selectionItem.Length > 0 Then
+                                        If selectionItem.Length <= 4000 Then
+                                            parameterCount = parameterCount + 1;
+                                            parameterName = "@sel" + parameterCount.ToString();
+                                            If parameterBuilder.Length > 0 Then parameterBuilder.Append(","); EndIf;
+                                            parameterBuilder.Append(parameterName);
+                                            command.Parameters.Add(parameterName, System.Data.SqlDbType.NVarChar, 4000).Value = selectionItem;
+                                        Else
+                                            configurationOK = False;
+                                            errorText = "SQL selector value exceeds 4000 characters.";
+                                        EndIf;
+                                    EndIf;
+                                Next;
+                                If parameterCount > 0 Then
+                                    quoteBuilder = new System.Data.SqlClient.SqlCommandBuilder();
+                                    selectionFormula = ", CASE WHEN " + quoteBuilder.QuoteIdentifier(selectionField) + " IN (" + parameterBuilder.ToString() + ") THEN 'selectedRow' ELSE NULL END AS [cssClass]";
+                                EndIf;
+                            Else
+                                configurationOK = False;
+                                errorText = "Invalid SQL selector: use Field=Value1|Value2.";
+                            EndIf;
+                        EndIf;
+                    EndIf;
+                EndIf;
+
+                If configurationOK Then
+                    command.CommandText = "SELECT " + columnsListLocal.Replace("|", ",") + selectionFormula +
+                                          " FROM " + objectLocal + whereClause + orderClause +
+                                          " FOR JSON PATH, INCLUDE_NULL_VALUES";
+                    configurationMs = stopwatch.Elapsed.TotalMilliseconds;
+
+                    phase = "Opening connection";
+                    phaseStarted = stopwatch.Elapsed.TotalMilliseconds;
+                    connection.Open();
+                    connectionMs = stopwatch.Elapsed.TotalMilliseconds - phaseStarted;
+
+                    phase = "ExecuteReader";
+                    phaseStarted = stopwatch.Elapsed.TotalMilliseconds;
+                    reader = command.ExecuteReader();
+                    executeMs = stopwatch.Elapsed.TotalMilliseconds - phaseStarted;
+
+                    phase = "Reading JSON";
+                    phaseStarted = stopwatch.Elapsed.TotalMilliseconds;
+                    dataBuilder = new System.Text.StringBuilder();
+                    ' FOR JSON can return multiple fragments: read them all.
+                    While reader.Read()
+                        If Not reader.IsDBNull(0) Then dataBuilder.Append(reader.GetString(0)); EndIf;
+                        chunks = chunks + 1;
+                    EndWhile;
+                    dataJson = dataBuilder.ToString();
+                    If dataJson.Length == 0 Then dataJson = "[]"; EndIf;
+                    readMs = stopwatch.Elapsed.TotalMilliseconds - phaseStarted;
+                    dataReady = True;
+                EndIf;
+            EndIf;
+        Catch
+            errorText = "MOD3 loading failed. Phase: " + phase;
+            errorDetail = ERROR.ToString();
+            LogError(errorText);
+            If IsDebugMode Then LogError(errorDetail); EndIf;
+        EndTry;
+
+        ' Independent cleanup: a failure does not prevent subsequent cleanup.
+        Try
+            If reader <> null Then reader.Dispose(); EndIf;
+        Catch
+            cleanupWarning = True;
+            LogWarning("MOD3: reader cleanup failed.");
+        EndTry;
+        Try
+            If command <> null Then command.Dispose(); EndIf;
+        Catch
+            cleanupWarning = True;
+            LogWarning("MOD3: command cleanup failed.");
+        EndTry;
+        Try
+            If connection <> null Then connection.Dispose(); EndIf;
+        Catch
+            cleanupWarning = True;
+            LogWarning("MOD3: connection cleanup failed.");
+        EndTry;
+        Try
+            If quoteBuilder <> null Then quoteBuilder.Dispose(); EndIf;
+        Catch
+            cleanupWarning = True;
+            LogWarning("MOD3: SqlCommandBuilder cleanup failed.");
+        EndTry;
+
+        Try
+            If dataReady Then
+                phase = "Publishing properties";
+                If rebuildColumns Then
+                    If Not System.String.Equals(GridColumns, columnsJson, System.StringComparison.Ordinal) Then
+                        GridColumns = columnsJson;
+                    EndIf;
+                    CacheConfigurazioneColonne = configurationKey;
+                EndIf;
+
+                changedData = Not System.String.Equals(GridData, dataJson, System.StringComparison.Ordinal);
+                If changedData Then GridData = dataJson; EndIf;
+                LastRefreshTimestamp = Now();
+                If cleanupWarning Then
+                    errorText = "Data read; check resource cleanup warnings in the logs.";
+                Else
+                    errorText = "";
+                EndIf;
+
+                If IsDebugMode Then
+                    LogMessage("MOD3 REFRESH OK - ConnessioneMs=" + connectionMs.ToString("0.0") +
+                               "; ExecuteReaderMs=" + executeMs.ToString("0.0") +
+                               "; LetturaMs=" + readMs.ToString("0.0") +
+                               "; ConfigurazioneMs=" + configurationMs.ToString("0.0") +
+                               "; FrammentiJSON=" + chunks.ToString() +
+                               "; CaratteriJSON=" + dataJson.Length.ToString() +
+                               "; DatiCambiati=" + changedData.ToString() +
+                               "; ColonneRicalcolate=" + rebuildColumns.ToString());
+                EndIf;
+            EndIf;
+
+            If Not System.String.Equals(ErrorMessage, errorText, System.StringComparison.Ordinal) Then
+                ErrorMessage = errorText;
+            EndIf;
+        Catch
+            ErrorMessage = "MOD3: result publication failed.";
+            LogError(ErrorMessage);
+            If IsDebugMode Then LogError(ERROR); EndIf;
+        EndTry;
+
+        Try
+            If stopwatch <> null Then
+                stopwatch.Stop();
+                LastRefreshDuration = stopwatch.Elapsed.TotalSeconds;
+            EndIf;
+        Catch
+            LogWarning("MOD3: duration measurement unavailable.");
+        EndTry;
+
+        RefreshInCorso = False;
+    EndIf;
+
+    ' Request consumed; after IsDirty/IsEditing the next cycle can retry.
+    RefreshDataCmd = False;
+EndIf;

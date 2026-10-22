@@ -1,0 +1,11 @@
+Current widget: GB_AGGridSQLWidget_mod3 VISUAL
+Date: 2026-10-22
+Language: English
+Package: GB_AGGridSQLWidget_mod3.cwp
+Internal identity: GB_AGGridSQLWidget_mod3
+SHA256: see GB_AGGridSQLWidget_mod3.cwp.sha256.txt
+Source: src/GB_AGGridSQLWidget_mod3/
+Documentation: README.md, index.html, docs/mod3/GUIDA_MOD3.md, RELEASE_MOD3.md
+Screenshots: docs/images/mod3-grid.png, docs/images/mod3-diagnostics.png
+Validation: browser tests with a simulated host; AVEVA runtime validation is still required.
+Historical archives: Backup-OLD/. Archived binaries and old documents remain in their original form.

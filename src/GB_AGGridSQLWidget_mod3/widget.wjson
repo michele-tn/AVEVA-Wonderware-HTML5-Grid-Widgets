@@ -1,0 +1,142 @@
+{
+  "version": 0,
+  "height": 400,
+  "width": 400,
+  "properties": {
+    "0": {
+      "name": "Columns",
+      "type": "String",
+      "value": "[]"
+    },
+    "1": {
+      "name": "Data",
+      "type": "String",
+      "value": "[]"
+    },
+    "2": {
+      "name": "FontSize",
+      "type": "Integer",
+      "value": "12"
+    },
+    "3": {
+      "name": "HeaderHeight",
+      "type": "Integer",
+      "value": "30"
+    },
+    "4": {
+      "name": "HeaderFontSize",
+      "type": "Integer",
+      "value": "12"
+    },
+    "5": {
+      "name": "RowHeight",
+      "type": "Integer",
+      "value": "27"
+    },
+    "6": {
+      "name": "IsDirty",
+      "type": "Boolean",
+      "value": "False"
+    },
+    "7": {
+      "name": "IsEditable",
+      "type": "Boolean",
+      "value": "True"
+    },
+    "8": {
+      "name": "IsDebugMode",
+      "type": "Boolean",
+      "value": "False"
+    },
+    "9": {
+      "name": "ColumnsProperties",
+      "type": "String",
+      "value": "[]"
+    },
+    "10": {
+      "name": "ColumnsOptions",
+      "type": "String",
+      "value": "[]"
+    },
+    "11": {
+      "name": "HeaderBackgroundColor",
+      "type": "String",
+      "value": "#840000"
+    },
+    "12": {
+      "name": "HeaderTextColor",
+      "type": "String",
+      "value": "#ffffff"
+    },
+    "13": {
+      "name": "OddRowBackgroundColor",
+      "type": "String",
+      "value": "#ffffff"
+    },
+    "14": {
+      "name": "EvenRowBackgroundColor",
+      "type": "String",
+      "value": "#f8f6fb"
+    },
+    "15": {
+      "name": "SelectedRowBackgroundColor",
+      "type": "String",
+      "value": "#fef2c6"
+    },
+    "16": {
+      "name": "RowTextColor",
+      "type": "String",
+      "value": "#222222"
+    },
+    "17": {
+      "name": "BorderColor",
+      "type": "String",
+      "value": "#dddddd"
+    },
+    "18": {
+      "name": "IsFilterable",
+      "type": "Boolean",
+      "value": "True"
+    },
+    "19": {
+      "name": "ConditionalCellStyles",
+      "type": "String",
+      "value": "[]"
+    },
+    "20": {
+      "name": "ColumnsWidths",
+      "type": "String",
+      "value": ""
+    },
+    "21": {
+      "name": "SelectedRowIndex",
+      "type": "Integer",
+      "value": "-1"
+    },
+    "22": {
+      "name": "SelectedColumnField",
+      "type": "String",
+      "value": ""
+    },
+    "23": {
+      "name": "SelectedCellValue",
+      "type": "String",
+      "value": ""
+    },
+    "24": {
+      "name": "SelectedRowData",
+      "type": "String",
+      "value": ""
+    },
+    "25": {
+      "name": "RowsToSelect",
+      "type": "String",
+      "value": "None"
+    },
+    "26": {
+      "name": "RowsToSelectDebug",
+      "type": "String",
+      "value": ""
+    }
+  }
+}

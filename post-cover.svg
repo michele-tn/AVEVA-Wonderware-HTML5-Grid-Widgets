@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">AVEVA Wonderware HTML5 Grid Widgets</title>
+  <desc id="desc">Presentation cover for AG Grid and Tabulator CWP widgets for AVEVA Wonderware and System Platform.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#12263a"/>
+      <stop offset="0.52" stop-color="#1e3a4a"/>
+      <stop offset="1" stop-color="#f3f7f4"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#eef5f2" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="agHeader" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#840000"/>
+      <stop offset="1" stop-color="#b41d1d"/>
+    </linearGradient>
+    <linearGradient id="tabHeader" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#126a63"/>
+      <stop offset="1" stop-color="#2d9c8f"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#08131c" flood-opacity="0.24"/>
+    </filter>
+    <style>
+      .label { font-family: "Segoe UI", Arial, Helvetica, sans-serif; fill: #ffffff; }
+      .ink { font-family: "Segoe UI", Arial, Helvetica, sans-serif; fill: #18303f; }
+      .muted { fill: #5e7280; }
+      .small { font-size: 24px; font-weight: 600; }
+      .tiny { font-size: 19px; font-weight: 600; }
+      .gridText { font-size: 18px; fill: #263a45; font-family: "Segoe UI", Arial, Helvetica, sans-serif; }
+      .gridHead { font-size: 18px; fill: #ffffff; font-weight: 700; font-family: "Segoe UI", Arial, Helvetica, sans-serif; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#background)"/>
+  <path d="M0 732 C230 654 345 748 560 692 C785 634 870 514 1098 544 C1318 573 1408 706 1600 640 L1600 900 L0 900 Z" fill="#dfe9e3" opacity="0.55"/>
+  <path d="M0 795 C278 720 430 818 696 759 C940 705 1072 664 1268 713 C1408 748 1500 748 1600 716 L1600 900 L0 900 Z" fill="#ffffff" opacity="0.6"/>
+
+  <g transform="translate(94 86)">
+    <text class="label" x="0" y="0" font-size="32" font-weight="700" letter-spacing="0">HTML5 / CWP Widgets</text>
+    <text class="label" x="0" y="88" font-size="76" font-weight="800" letter-spacing="0">AVEVA Wonderware</text>
+    <text class="label" x="0" y="164" font-size="76" font-weight="800" letter-spacing="0">Grid Integration</text>
+    <text class="label" x="0" y="212" font-size="30" font-weight="500" opacity="0.86">AG Grid and Tabulator powered tables with a shared JSON property contract</text>
+  </g>
+
+  <g transform="translate(94 390)">
+    <rect x="0" y="0" width="390" height="112" rx="8" fill="#ffffff" opacity="0.95" filter="url(#shadow)"/>
+    <rect x="20" y="22" width="60" height="60" rx="8" fill="#e7f0ed"/>
+    <path d="M37 60 L50 73 L68 39" fill="none" stroke="#126a63" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text class="ink" x="100" y="43" font-size="27" font-weight="800">System Platform</text>
+    <text class="ink muted" x="100" y="72" font-size="18" font-weight="600">SQL handled outside</text>
+    <text class="ink muted" x="100" y="96" font-size="18" font-weight="600">the browser widget</text>
+  </g>
+
+  <g transform="translate(516 446)">
+    <path d="M0 0 L150 0" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.88"/>
+    <path d="M166 0 L143 -13 L143 13 Z" fill="#ffffff" opacity="0.88"/>
+    <text class="label" x="16" y="-22" font-size="20" font-weight="700">Columns + Data</text>
+  </g>
+
+  <g transform="translate(690 308)" filter="url(#shadow)">
+    <rect x="0" y="0" width="390" height="254" rx="8" fill="url(#panel)"/>
+    <rect x="0" y="0" width="390" height="54" rx="8" fill="url(#agHeader)"/>
+    <path d="M0 46 L390 46 L390 54 L0 54 Z" fill="#840000"/>
+    <text class="gridHead" x="22" y="34">GB_AGGridSQLWidget</text>
+    <text class="gridHead" x="282" y="34" opacity="0.82">AG Grid</text>
+    <g transform="translate(20 78)">
+      <rect width="350" height="38" fill="#f7faf9" stroke="#d7e2de"/>
+      <rect y="38" width="350" height="38" fill="#ffffff" stroke="#d7e2de"/>
+      <rect y="76" width="350" height="38" fill="#f8f6fb" stroke="#d7e2de"/>
+      <rect y="114" width="350" height="38" fill="#ffffff" stroke="#d7e2de"/>
+      <line x1="112" y1="0" x2="112" y2="152" stroke="#d7e2de"/>
+      <line x1="226" y1="0" x2="226" y2="152" stroke="#d7e2de"/>
+      <text class="gridText" x="16" y="25" font-weight="700">Symbol</text>
+      <text class="gridText" x="128" y="25" font-weight="700">Value</text>
+      <text class="gridText" x="242" y="25" font-weight="700">Trend</text>
+      <text class="gridText" x="16" y="64">AVEVA</text>
+      <text class="gridText" x="128" y="64">123.45</text>
+      <path d="M244 61 L266 50 L288 56 L310 42 L338 47" fill="none" stroke="#126a63" stroke-width="4" stroke-linecap="round"/>
+      <text class="gridText" x="16" y="102">SQL01</text>
+      <text class="gridText" x="128" y="102">98.70</text>
+      <path d="M244 99 L266 93 L288 101 L310 86 L338 80" fill="none" stroke="#b41d1d" stroke-width="4" stroke-linecap="round"/>
+      <text class="gridText" x="16" y="140">LINE7</text>
+      <text class="gridText" x="128" y="140">64.20</text>
+      <path d="M244 137 L266 132 L288 126 L310 132 L338 118" fill="none" stroke="#126a63" stroke-width="4" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <g transform="translate(1122 308)" filter="url(#shadow)">
+    <rect x="0" y="0" width="390" height="254" rx="8" fill="url(#panel)"/>
+    <rect x="0" y="0" width="390" height="54" rx="8" fill="url(#tabHeader)"/>
+    <path d="M0 46 L390 46 L390 54 L0 54 Z" fill="#126a63"/>
+    <text class="gridHead" x="22" y="34">GB_TabulatorSQLWidget</text>
+    <text class="gridHead" x="276" y="34" opacity="0.82">Tabulator</text>
+    <g transform="translate(20 78)">
+      <rect width="350" height="38" fill="#f7faf9" stroke="#d7e2de"/>
+      <rect y="38" width="350" height="38" fill="#ffffff" stroke="#d7e2de"/>
+      <rect y="76" width="350" height="38" fill="#f8f6fb" stroke="#d7e2de"/>
+      <rect y="114" width="350" height="38" fill="#ffffff" stroke="#d7e2de"/>
+      <line x1="112" y1="0" x2="112" y2="152" stroke="#d7e2de"/>
+      <line x1="226" y1="0" x2="226" y2="152" stroke="#d7e2de"/>
+      <text class="gridText" x="16" y="25" font-weight="700">Date</text>
+      <text class="gridText" x="128" y="25" font-weight="700">Status</text>
+      <text class="gridText" x="242" y="25" font-weight="700">Filter</text>
+      <text class="gridText" x="16" y="64">2026-06-16</text>
+      <text class="gridText" x="128" y="64">OPEN</text>
+      <rect x="244" y="47" width="84" height="22" rx="4" fill="#ffffff" stroke="#9fb5b0"/>
+      <text class="gridText" x="251" y="64" font-size="15">date</text>
+      <text class="gridText" x="16" y="102">2026-06-17</text>
+      <text class="gridText" x="128" y="102">HOLD</text>
+      <rect x="244" y="85" width="84" height="22" rx="4" fill="#ffffff" stroke="#9fb5b0"/>
+      <text class="gridText" x="251" y="102" font-size="15">list</text>
+      <text class="gridText" x="16" y="140">2026-06-18</text>
+      <text class="gridText" x="128" y="140">DONE</text>
+      <rect x="244" y="123" width="84" height="22" rx="4" fill="#ffffff" stroke="#9fb5b0"/>
+      <text class="gridText" x="251" y="140" font-size="15">text</text>
+    </g>
+  </g>
+
+  <g transform="translate(690 630)">
+    <rect x="0" y="0" width="760" height="132" rx="8" fill="#ffffff" opacity="0.95" filter="url(#shadow)"/>
+    <g transform="translate(28 34)">
+      <rect x="0" y="0" width="64" height="64" rx="8" fill="#f3e7e7"/>
+      <path d="M18 19 H46 V45 H18 Z" fill="none" stroke="#840000" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M18 28 H46 M28 19 V45" stroke="#840000" stroke-width="4"/>
+    </g>
+    <text class="ink" x="112" y="46" font-size="27" font-weight="800">CWP archive ready for AVEVA import</text>
+    <text class="ink muted" x="112" y="80" font-size="19" font-weight="600">Root folder included, backslash ZIP paths</text>
+    <text class="ink muted" x="112" y="106" font-size="19" font-weight="600">UTF-8 no BOM, LF line endings</text>
+  </g>
+
+  <g transform="translate(105 682)">
+    <text class="label" x="0" y="0" font-size="28" font-weight="800">Shared JSON contract</text>
+    <g transform="translate(0 28)">
+      <rect x="0" y="0" width="136" height="42" rx="8" fill="#ffffff" opacity="0.94"/>
+      <text class="ink tiny" x="20" y="28">Columns</text>
+      <rect x="152" y="0" width="94" height="42" rx="8" fill="#ffffff" opacity="0.94"/>
+      <text class="ink tiny" x="179" y="28">Data</text>
+      <rect x="262" y="0" width="102" height="42" rx="8" fill="#ffffff" opacity="0.94"/>
+      <text class="ink tiny" x="285" y="28">Dirty</text>
+      <rect x="380" y="0" width="124" height="42" rx="8" fill="#ffffff" opacity="0.94"/>
+      <text class="ink tiny" x="405" y="28">Filters</text>
+    </g>
+  </g>
+
+  <g transform="translate(82 804)">
+    <rect x="0" y="0" width="940" height="56" rx="8" fill="#142c3a" opacity="0.9"/>
+    <text class="label" x="24" y="36" font-size="21" font-weight="700" opacity="1">AG Grid finance-inspired rendering + Tabulator 6.x examples for industrial HMI widgets</text>
+  </g>
+</svg>
